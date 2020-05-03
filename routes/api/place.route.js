@@ -1,24 +1,17 @@
 const router = require("express").Router();
-const placeSchema = require("../models/placeSchema.js");
+const placeController = require("./controllers");
 
-router.post("/api/place", ({ body }, res) => {
-  placeSchema.create(body)
-    .then(dbPlace => {
-      res.json(dbPlace);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
+// Matches with "/api/books"
+router.route("/")
+  .get(placeController.findAll)
+  .post(placeController.create);
 
-router.get("/api/place", (req, res) => {
-  placeSchema.find({})
-    .then(dbPlace => {
-      res.json(dbPlace);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
+// Matches with "/api/books/:id"
+router
+  .route("/:id")
+  .get(placeController.findById)
+  .put(placeController.update)
+  .delete(placeController.remove);
 
 module.exports = router;
+

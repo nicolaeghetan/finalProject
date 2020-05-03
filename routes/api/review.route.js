@@ -1,25 +1,16 @@
 const router = require("express").Router();
-const reviewSchema = require("../models/reviewSchema.js");
+const reviewController = require("./controllers");
 
-router.post("/api/review", ({ body }, res) => {
-  reviewSchema.create(body)
-    .then(dbReview => {
-      res.json(dbReview);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
+// Matches with "/api/books"
+router.route("/")
+  .get(reviewController.findAll)
+  .post(reviewController.create);
 
-router.get("/api/review", (req, res) => {
-  reviewSchema.find({})
-    .sort({ date: -1 })
-    .then(dbReview => {
-      res.json(dbReview);
-    })
-    .catch(err => {
-      res.status(400).json(err);
-    });
-});
+// Matches with "/api/books/:id"
+router
+  .route("/:id")
+  .get(reviewController.findById)
+  .put(reviewController.update)
+  .delete(reviewController.remove);
 
 module.exports = router;

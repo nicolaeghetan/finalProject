@@ -18,7 +18,7 @@ const placeSchema = new Schema({
       min: 6,
       required: "Enter your review"
   },
-  phoneNUmber: {
+  phoneNumber: {
       type: Number,
       required: "Enter your phone number",
       min: [7 , 'Your  phome number must be at least 7 digits'],

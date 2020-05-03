@@ -1,15 +1,20 @@
 const express = require('express');
 const config = require('config');
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const routes = require('./routes')
 
 const app = express();
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 const PORT = config.get('port') || 3000;
 
+app.use(routes);
+
 async function start() {
     try {
-        await mongoose.connect(config.get('mongoURL'),{
+        await mongoose.connect(config.get('mongoURI'),{
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true,
@@ -23,6 +28,6 @@ async function start() {
 }
 start();
 
-app.use(require("./routes/index.js"));
 
-app.listen(PORT, () => console.log(`App has been started on ${PORT}... `))
+
+app.listen(PORT, () => console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`))
